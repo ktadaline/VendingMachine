@@ -6,9 +6,9 @@ namespace Capstone
 {
     public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            List<string> FullTextProducts = new List<string>();
+            List<string> fullTextProducts = new List<string>();
 
             string path = "vendingmachine.csv";
             string root = Environment.CurrentDirectory;
@@ -20,13 +20,25 @@ namespace Capstone
                 {
                     string line = sr.ReadLine();
 
-                    FullTextProducts.Add(line);
+                    fullTextProducts.Add(line);
                 }
-
             }
+
+            VendingMachine vender = new VendingMachine();
+
+            vender.StockVendingMachine(fullTextProducts);
+
+            Menu menu = new Menu(vender);
+            //Console.WriteLine(menu.DisplayInventory());
+
+            menu.DisplayMainMenu();
+
+
 
 
 
         }
+
+
     }
 }
