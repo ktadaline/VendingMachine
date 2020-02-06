@@ -5,24 +5,20 @@ using System.Text;
 
 namespace Capstone
 {
-    class Menu
+    public class Menu
     {
-        string input = "";
 
-        string path = "vendingmachine.csv";
-        string root = Environment.CurrentDirectory;
-        
+        List<IProduct> products = new List<IProduct>;
 
-        using(StreamReader sr = new StreamReader(root + "\\" + path))
+    
+
+
+        public List<IProduct> lineToProduct(List <>)
         {
-            while (!sr.EndOfStream)
-            {
 
-            }
-
+          
+            
         }
-
- 
 
     }
 }
