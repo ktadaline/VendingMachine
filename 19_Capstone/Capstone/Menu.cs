@@ -37,10 +37,7 @@ namespace Capstone
         {
             Console.WriteLine("Welcome to Racoon City's Vendo-Matic 800 \n \n(1) Display Vending Machine Items \n(2) Purchase\n(3) Exit");
             Console.WriteLine();
-
-
             string input = Console.ReadLine();
-
 
             while (input != "3")
             {
@@ -50,7 +47,6 @@ namespace Capstone
                 }
                 else if (input == "2")
                 {
-                    //Console.WriteLine("Purchase");
                     Console.WriteLine();
                     PurchaseMenu();
                 }
@@ -58,19 +54,14 @@ namespace Capstone
                 {
                     Console.WriteLine("Secret Menu: Sales Report");
                     SalesReport();
-
                 }
                 else
                 {
                     Console.WriteLine("Not a valid input. TRY AGAIN!");
                 }
-                Console.WriteLine();
-                Console.WriteLine("Please make another selection!");
-                Console.WriteLine();
-                Console.WriteLine("Welcome to Racoon City's Vendo-Matic 800 \n(1) Display Vending Machine Items \n(2) Purchase\n(3) Exit");
-                Console.WriteLine();
+                Console.WriteLine("\nPlease make another selection!");
+                Console.WriteLine("\nWelcome to Racoon City's Vendo-Matic 800 \n(1) Display Vending Machine Items \n(2) Purchase\n(3) Exit\n");
                 input = Console.ReadLine();
-
             }
             Console.WriteLine("Goodbye");
         }
@@ -78,8 +69,7 @@ namespace Capstone
         public void PurchaseMenu()
         {
             Console.WriteLine("Please make a selection:\n(1) Feed Money\n(2) Select Product\n(3) Finish Transaction");
-            Console.WriteLine();
-            Console.WriteLine($"Current Money Provided: {Vend.Balance:C}");
+            Console.WriteLine($"\nCurrent Money Provided: {Vend.Balance:C}");
             string input = Console.ReadLine();
 
             while (input != "3")
@@ -97,29 +87,24 @@ namespace Capstone
                 {
                     SelectProduct();
                 }
+                else if (input == "4")
+                {
+                    Console.WriteLine("Secret Menu: Sales Report");
+                    SalesReport();
+                }
                 else
                 {
                     Console.WriteLine("Not a valid input. TRY AGAIN!");
                 }
-
-                Console.WriteLine();
-                Console.WriteLine("Please make another selection!");
+                Console.WriteLine("\nPlease make another selection!");
                 Console.WriteLine("Please make a selection:\n(1) Feed Money\n(2) Select Product\n(3) Finish Transaction");
-
+                Console.WriteLine($"\nCurrent Money Provided: {Vend.Balance:C}");
                 Console.WriteLine();
-                Console.WriteLine($"Current Money Provided: {Vend.Balance:C}");
-                Console.WriteLine();
-
-
                 input = Console.ReadLine();
             }
             FinishTransaction();
             Console.WriteLine("Goodbye.");
-
-
         }
-
-
         public decimal FeedMoney(string money)
         {
             money = money.ToLower();
@@ -148,7 +133,6 @@ namespace Capstone
                 Console.WriteLine("Keep your monopoly money at home!!!");
             }
             Console.WriteLine();
-
             return Vend.Balance;
         }
         public void SelectProduct()
