@@ -14,14 +14,11 @@ namespace Capstone
             this.Vend = vend;
         }
         List<string> TransactionList = new List<string>();
-        List<string> SalesReportList = new List<string>();
-
         public string DisplayInventory()
         {
             string display = "";
             foreach (IProduct product in Vend.Products)
             {
-
                 if (product.QuantityLeft != 0)
                 {
 
@@ -60,6 +57,7 @@ namespace Capstone
                 else if (input == "4")
                 {
                     Console.WriteLine("Secret Menu: Sales Report");
+                    SalesReport();
 
                 }
                 else
@@ -98,10 +96,6 @@ namespace Capstone
                 else if (input == "2")
                 {
                     SelectProduct();
-                }
-                else if (input == "4")
-                {
-                    SalesReport();
                 }
                 else
                 {
@@ -212,12 +206,12 @@ namespace Capstone
             {
                 Console.WriteLine($"{product.ProductName}|{product.QuantitySold}");
             }
-            using (StreamWriter sw = new StreamWriter($"{DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss")}SalesReport.txt"))
+            using (StreamWriter sw = new StreamWriter($"{Environment.CurrentDirectory}\\{DateTime.Now.ToString("MMddyyyy_HHmmss")}SalesReport.txt"))
             {
-                
+
                 foreach (IProduct product in Vend.Products)
                 {
-                    sw.WriteLine($"{product.ProductName}|{ product.QuantitySold}");
+                    sw.WriteLine($"{product.ProductName.ToString()}|{product.QuantitySold.ToString()}");
                 }
             }
         }

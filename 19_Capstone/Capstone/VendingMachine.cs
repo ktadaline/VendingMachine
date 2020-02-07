@@ -13,8 +13,6 @@ namespace Capstone
 
         public void StockVendingMachine(List<string> input)
         {
-            //List<IProduct> products = new LiStst<IProduct>();
-
             foreach (string str in input)
             {
                 string[] arr = str.Split("|");
@@ -23,7 +21,6 @@ namespace Capstone
                 string StringCost = arr[2];
                 decimal Cost = decimal.Parse(StringCost);
                 string type = arr[3];
-
 
                 if (type == "Candy")
                 {
@@ -45,10 +42,7 @@ namespace Capstone
                     Gum gum = new Gum(ProductName, SlotLocation, Cost);
                     Products.Add(gum);
                 }
-
             }
-           // return products;
-
         }
     }
 }
