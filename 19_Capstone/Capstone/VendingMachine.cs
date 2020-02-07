@@ -44,5 +44,41 @@ namespace Capstone
                 }
             }
         }
+
+        public decimal FeedMoney(string money)
+        {
+
+            decimal dollarsAdded = 0M;
+
+            money = money.ToLower();
+
+            if (money == "1" || money == "one" || money == "$1" || money == "1.00" || money == "$1.00")
+            {
+
+                dollarsAdded = 1M;
+            }
+            else if (money == "2" || money == "two" || money == "$2" || money == "2.00" || money == "$2.00")
+            {
+                dollarsAdded = 2M;
+
+            }
+            else if (money == "5" || money == "five" || money == "$5" || money == "5.00" || money == "$5.00")
+            {
+                dollarsAdded = 5M; ;
+
+            }
+            else if (money == "10" || money == "ten" || money == "$10" || money == "10.00" || money == "$10.00")
+            {
+                dollarsAdded = 10M;
+            }
+            else
+            {
+                throw new InvalidMoneyTypeException();
+            }
+
+            Balance += dollarsAdded;
+
+            return Balance;
+        }
     }
 }

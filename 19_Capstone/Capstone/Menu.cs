@@ -48,21 +48,24 @@ namespace Capstone
 
             while (input != "3")
             {
-                if (input == "1")
+                try
                 {
-                    Console.WriteLine(DisplayInventory());
+                    if (input == "1")
+                    {
+                        Console.WriteLine(DisplayInventory());
+                    }
+                    else if (input == "2")
+                    {
+                        Console.WriteLine();
+                        PurchaseMenu();
+                    }
+                    else if (input == "4")
+                    {
+                        Console.WriteLine("Secret Menu: Sales Report");
+                        SalesReport();
+                    }
                 }
-                else if (input == "2")
-                {
-                    Console.WriteLine();
-                    PurchaseMenu();
-                }
-                else if (input == "4")
-                {
-                    Console.WriteLine("Secret Menu: Sales Report");
-                    SalesReport();
-                }
-                else
+                catch(InvalidMenuSelectionException)
                 {
                     Console.WriteLine("Not a valid input. TRY AGAIN!");
                 }
@@ -70,18 +73,26 @@ namespace Capstone
                 Console.WriteLine("\nWelcome to Racoon City's Vendo-Matic 800 \n(1) Display Vending Machine Items \n(2) Purchase\n(3) Exit\n");
                 input = Console.ReadLine();
             }
-            Console.WriteLine("Goodbye");
+            FinishTransaction();
+            
         }
 
         public void PurchaseMenu()
         {
-            Console.WriteLine("Please make a selection:\n(1) Feed Money\n(2) Select Product\n(3) Finish Transaction");
+            Console.WriteLine("Please make a selection:\n(0) Return to Main Menu\n(1) Feed Money\n(2) Select Product\n(3) Finish Transaction");
             Console.WriteLine($"\nCurrent Money Provided: {Vend.Balance:C}");
             string input = Console.ReadLine();
 
             while (input != "3")
             {
-                if (input == "1")
+                if (input == "0")
+                {
+                    Console.WriteLine("Returning to Main Menu");
+                    DisplayMainMenu();
+                    
+
+                }
+                else if (input == "1")
                 {
                     Console.WriteLine("Please insert bills now\n($1, $2, $5 and $10 accepted)");
                     string money = Console.ReadLine();
@@ -104,7 +115,7 @@ namespace Capstone
                     Console.WriteLine("Not a valid input. TRY AGAIN!");
                 }
                 Console.WriteLine("\nPlease make another selection!");
-                Console.WriteLine("Please make a selection:\n(1) Feed Money\n(2) Select Product\n(3) Finish Transaction");
+                Console.WriteLine("Please make a selection:\n(0) Return to Main Menu\n(1) Feed Money\n(2) Select Product\n(3) Finish Transaction");
                 Console.WriteLine($"\nCurrent Money Provided: {Vend.Balance:C}");
                 Console.WriteLine();
                 input = Console.ReadLine();
@@ -115,27 +126,15 @@ namespace Capstone
         public decimal FeedMoney(string money)
         {
             money = money.ToLower();
-            if (money == "1" || money == "one" || money == "$1" || money == "1.00" || money == "$1.00")
+            try 
             {
-                Vend.Balance += 1M;
-                TransactionList.Add($"{DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss")} FEED MONEY: $1.00 {Vend.Balance:C}");
+                decimal dollarsAdded = Vend.FeedMoney(money);
+
+                TransactionList.Add($"{DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss")} FEED MONEY: {dollarsAdded:C} {Vend.Balance:C}");
             }
-            else if (money == "2" || money == "two" || money == "$2" || money == "2.00" || money == "$2.00")
-            {
-                Vend.Balance += 2M;
-                TransactionList.Add($"{DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss")} FEED MONEY: $2.00 {Vend.Balance:C}");
-            }
-            else if (money == "5" || money == "five" || money == "$5" || money == "5.00" || money == "$5.00")
-            {
-                Vend.Balance += 5M;
-                TransactionList.Add($"{DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss")} FEED MONEY: $5.00 {Vend.Balance:C}");
-            }
-            else if (money == "10" || money == "ten" || money == "$10" || money == "10.00" || money == "$10.00")
-            {
-                Vend.Balance += 10M;
-                TransactionList.Add($"{DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss")} FEED MONEY: $10.00 {Vend.Balance:C}");
-            }
-            else
+
+
+            catch(InvalidMoneyTypeException ex)
             {
                 Console.WriteLine("Keep your monopoly money at home!!!");
             }
@@ -155,6 +154,7 @@ namespace Capstone
                     {
                         product.QuantitySold++;
                         Vend.Balance -= product.Price;
+                        Console.WriteLine($"\nDispensing {product.ProductName}.....\n");
                         Console.WriteLine(product.Message);
                         TransactionList.Add($"{DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss")} {product.ProductName} {product.SlotLocation} {Vend.Balance + product.Price:C} {Vend.Balance:C}");
                     }
