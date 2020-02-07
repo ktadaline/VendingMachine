@@ -33,12 +33,7 @@ namespace Capstone
 
             menu.DisplayMainMenu();
 
-
-
-
-
+            menu.AuditEntry();
         }
-
-
     }
 }

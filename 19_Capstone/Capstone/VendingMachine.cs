@@ -9,6 +9,7 @@ namespace Capstone
 
         public List<IProduct> Products { get; private set; } = new List<IProduct>();
         public decimal Balance { get; set; } = 0;
+        public int Count { get; set; }
 
         public void StockVendingMachine(List<string> input)
         {
