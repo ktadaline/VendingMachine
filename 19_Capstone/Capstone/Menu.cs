@@ -3,30 +3,46 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
+
 namespace Capstone
 {
     public class Menu
     {
         public VendingMachine Vend { get; }
 
+
         public Menu(VendingMachine vend)
         {
             this.Vend = vend;
         }
+
         List<string> TransactionList = new List<string>();
+
+
+
         public string DisplayInventory()
         {
             string display = "";
+           
+
+            //display += "\t\t#     Product              Price      Quantity\n";
+            display += "\t\t#     Product              Price      Quantity\n";
+
+            //display += "\t\t................................................\n";
+            display += "\t\t...............................................\n";
+
             foreach (IProduct product in Vend.Products)
             {
                 if (product.QuantityLeft != 0)
                 {
 
-                    display += $"{product.SlotLocation} {product.ProductName} {product.Price:C} {product.QuantityLeft.ToString()} \n";
+                    display += $"\t\t{product.SlotLocation,-5} {product.ProductName, -20} {product.Price.ToString("C"), -13} {product.QuantityLeft.ToString(), -20} \n";
+                    //display += $"\t\t{product.SlotLocation,-5} {product.ProductName, -20} {product.Price.ToString("C"), -10} {product.QuantityLeft.ToString(), -20} \n";
+
                 }
                 else
                 {
-                    display += $"{product.SlotLocation} {product.ProductName} {product.Price:C} SOLD OUT \n";
+                    display += $"\t\t{product.SlotLocation,-5} {product.ProductName,-20} {product.Price.ToString("C"),-10} SOLD OUT \n";
 
                 }
             }
@@ -35,42 +51,42 @@ namespace Capstone
 
         public void DisplayMainMenu()
         {
-            Console.WriteLine(@"
-██╗   ██╗███████╗███╗   ██╗██████╗  ██████╗       ███╗   ███╗ █████╗ ████████╗██╗ ██████╗     █████╗  ██████╗  ██████╗ 
-██║   ██║██╔════╝████╗  ██║██╔══██╗██╔═══██╗      ████╗ ████║██╔══██╗╚══██╔══╝██║██╔════╝    ██╔══██╗██╔═████╗██╔═████╗
-██║   ██║█████╗  ██╔██╗ ██║██║  ██║██║   ██║█████╗██╔████╔██║███████║   ██║   ██║██║         ╚█████╔╝██║██╔██║██║██╔██║
-╚██╗ ██╔╝██╔══╝  ██║╚██╗██║██║  ██║██║   ██║╚════╝██║╚██╔╝██║██╔══██║   ██║   ██║██║         ██╔══██╗████╔╝██║████╔╝██║
- ╚████╔╝ ███████╗██║ ╚████║██████╔╝╚██████╔╝      ██║ ╚═╝ ██║██║  ██║   ██║   ██║╚██████╗    ╚█████╔╝╚██████╔╝╚██████╔╝
-  ╚═══╝  ╚══════╝╚═╝  ╚═══╝╚═════╝  ╚═════╝       ╚═╝     ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝ ╚═════╝     ╚════╝  ╚═════╝  ╚═════╝ ");
-            Console.WriteLine("Welcome to Racoon City's Vendo-Matic 800 \n \n(1) Display Vending Machine Items \n(2) Purchase\n(3) Exit");
+            Console.Clear();
+            vendoMaticGraphic();
+            Console.WriteLine("Welcome to Racoon City's Vendo-Matic 800 \n \nMAKE A SELECTION:\n\n(1) Display Vending Machine Items \n(2) Purchase\n(3) Exit");
             Console.WriteLine();
             string input = Console.ReadLine();
-
             while (input != "3")
             {
-                try
-                {
                     if (input == "1")
                     {
+                        Console.Clear();
+                        vendoMaticGraphic();
+                        Console.WriteLine();
                         Console.WriteLine(DisplayInventory());
                     }
                     else if (input == "2")
                     {
+                        Console.Clear();
                         Console.WriteLine();
                         PurchaseMenu();
                     }
                     else if (input == "4")
                     {
-                        Console.WriteLine("Secret Menu: Sales Report");
+                        Console.Clear();
+                        vendoMaticGraphic();
+                        Console.WriteLine("Secret Menu: Sales Report\n");
                         SalesReport();
                     }
-                }
-                catch(InvalidMenuSelectionException)
+                else
                 {
+                    Console.Clear();
+                    vendoMaticGraphic();
                     Console.WriteLine("Not a valid input. TRY AGAIN!");
                 }
-                Console.WriteLine("\nPlease make another selection!");
-                Console.WriteLine("\nWelcome to Racoon City's Vendo-Matic 800 \n(1) Display Vending Machine Items \n(2) Purchase\n(3) Exit\n");
+                
+                
+                Console.WriteLine("\nMAKE ANOTHER SELECTION: \n\n(1) Display Vending Machine Items \n(2) Purchase\n(3) Exit\n");
                 input = Console.ReadLine();
             }
             FinishTransaction();
@@ -79,7 +95,9 @@ namespace Capstone
 
         public void PurchaseMenu()
         {
-            Console.WriteLine("Please make a selection:\n(0) Return to Main Menu\n(1) Feed Money\n(2) Select Product\n(3) Finish Transaction");
+            Console.Clear();
+            vendoMaticGraphic();
+            Console.WriteLine("\nPLEASE MAKE A SELECTION: \n\n(0) Return to Main Menu\n(1) Feed Money\n(2) Select Product\n(3) Finish Transaction");
             Console.WriteLine($"\nCurrent Money Provided: {Vend.Balance:C}");
             string input = Console.ReadLine();
 
@@ -94,34 +112,56 @@ namespace Capstone
                 }
                 else if (input == "1")
                 {
-                    Console.WriteLine("Please insert bills now\n($1, $2, $5 and $10 accepted)");
+                    Console.Clear();
+                    vendoMaticGraphic();
+                    Console.WriteLine($"\nCurrent Money Provided: {Vend.Balance:C}");
+                    Console.WriteLine("\nPlease insert bills now\n($1, $2, $5 and $10 accepted)");
                     string money = Console.ReadLine();
 
                     Console.WriteLine();
-                    FeedMoney(money);
+                    decimal newBalance = FeedMoney(money);
+
+                    Console.WriteLine($"***Depositing cash. Balance is updating to {newBalance:C}.***");
 
                 }
                 else if (input == "2")
                 {
-                    SelectProduct();
+                    Console.Clear();
+                    vendoMaticGraphic();
+
+                    bool validSelection;
+
+                    validSelection = SelectProduct();
+                    if (!validSelection)
+                    {
+                        Console.Clear();
+                        vendoMaticGraphic();
+                        Console.WriteLine("NOT A VALID SELECTION");
+                    }
+          
                 }
                 else if (input == "4")
                 {
-                    Console.WriteLine("Secret Menu: Sales Report");
+                    Console.WriteLine();
+                    Console.Clear();
+                    vendoMaticGraphic();
+                    Console.WriteLine("Secret Menu: Sales Report\n");
                     SalesReport();
                 }
                 else
                 {
+                    Console.Clear();
+                    vendoMaticGraphic();
                     Console.WriteLine("Not a valid input. TRY AGAIN!");
                 }
-                Console.WriteLine("\nPlease make another selection!");
-                Console.WriteLine("Please make a selection:\n(0) Return to Main Menu\n(1) Feed Money\n(2) Select Product\n(3) Finish Transaction");
+         
+        
+                Console.WriteLine("\nMAKE ANOTHER SELECTION: \n(0) Return to Main Menu\n(1) Feed Money\n(2) Select Product\n(3) Finish Transaction");
                 Console.WriteLine($"\nCurrent Money Provided: {Vend.Balance:C}");
                 Console.WriteLine();
                 input = Console.ReadLine();
             }
             FinishTransaction();
-            Console.WriteLine("Goodbye.");
         }
         public decimal FeedMoney(string money)
         {
@@ -132,39 +172,58 @@ namespace Capstone
 
                 TransactionList.Add($"{DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss")} FEED MONEY: {dollarsAdded:C} {Vend.Balance:C}");
             }
-
-
-            catch(InvalidMoneyTypeException ex)
+            catch(InvalidMoneyTypeException)
             {
                 Console.WriteLine("Keep your monopoly money at home!!!");
             }
             Console.WriteLine();
             return Vend.Balance;
         }
-        public void SelectProduct()
+
+        //make sure this works
+        public bool SelectProduct()
         {
+            bool validSelection = false;
             Console.WriteLine(DisplayInventory());
-            Console.WriteLine("Make Selection:");
+            Console.WriteLine($"Current Money Provided: {Vend.Balance:C}");
+            Console.WriteLine("\nMAKE A SELECTION:\n");
             string input = Console.ReadLine();
             foreach (IProduct product in Vend.Products)
             {
                 if (input.ToUpper() == product.SlotLocation)
                 {
-                    if (Vend.Balance >= product.Price)
+                    validSelection = true;
+
+                    if (product.QuantityLeft > 0)
                     {
-                        product.QuantitySold++;
-                        Vend.Balance -= product.Price;
-                        Console.WriteLine($"\nDispensing {product.ProductName}.....\n");
-                        Console.WriteLine(product.Message);
-                        TransactionList.Add($"{DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss")} {product.ProductName} {product.SlotLocation} {Vend.Balance + product.Price:C} {Vend.Balance:C}");
+                        if (Vend.Balance >= product.Price)
+                        {
+                            product.QuantitySold++;
+                            Vend.Balance -= product.Price;
+                            Console.Clear();
+                            vendoMaticGraphic();
+                            Console.WriteLine($"\nDispensing {product.ProductName}.....\n");
+                            Console.WriteLine(product.Message);
+                            Console.WriteLine();
+                            TransactionList.Add($"{DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss")} {product.ProductName} {product.SlotLocation} {Vend.Balance + product.Price:C} {Vend.Balance:C}");
+                            
+                        }
+                        else
+                        {
+                            Console.Clear();
+                            vendoMaticGraphic();
+                            Console.WriteLine("\nTo make this selection, you need to enter more money!");
+                        }
                     }
                     else
                     {
-                        Console.WriteLine("To make this selection, you need to enter more money!");
+                        Console.Clear();
+                        vendoMaticGraphic();
+                        Console.WriteLine("\n***SORRY, THIS ITEM IS SOLD OUT***");
                     }
-
                 }
             }
+            return validSelection;
         }
         public void FinishTransaction()
         {
@@ -175,6 +234,10 @@ namespace Capstone
             Vend.Balance -= dimes * .1m;
             int nickels = (int)(Vend.Balance / .05m);
             Vend.Balance -= nickels * .05m;
+
+            Console.Clear();
+            vendoMaticGraphic();
+            Console.WriteLine();
 
             if (quarters > 0)
             {
@@ -216,6 +279,44 @@ namespace Capstone
                 }
             }
         }
+        private void vendoMaticGraphic()
+        {
+            ConsoleColor savedColor = Console.ForegroundColor;
+            SetRandomColor();
+            Console.WriteLine("██╗   ██╗███████╗███╗   ██╗██████╗  ██████╗       ███╗   ███╗ █████╗ ████████╗██╗ ██████╗     █████╗  ██████╗  ██████╗ ");
+            SetRandomColor();
+            Console.WriteLine("██║   ██║██╔════╝████╗  ██║██╔══██╗██╔═══██╗      ████╗ ████║██╔══██╗╚══██╔══╝██║██╔════╝    ██╔══██╗██╔═████╗██╔═████╗");
+            SetRandomColor();
+            Console.WriteLine("██║   ██║█████╗  ██╔██╗ ██║██║  ██║██║   ██║█████╗██╔████╔██║███████║   ██║   ██║██║         ╚█████╔╝██║██╔██║██║██╔██║");
+            SetRandomColor();
+            Console.WriteLine("╚██╗ ██╔╝██╔══╝  ██║╚██╗██║██║  ██║██║   ██║╚════╝██║╚██╔╝██║██╔══██║   ██║   ██║██║         ██╔══██╗████╔╝██║████╔╝██║");
+            SetRandomColor();
+            Console.WriteLine(" ╚████╔╝ ███████╗██║ ╚████║██████╔╝╚██████╔╝      ██║ ╚═╝ ██║██║  ██║   ██║   ██║╚██████╗    ╚█████╔╝╚██████╔╝╚██████╔╝");
+            SetRandomColor();
+            Console.WriteLine("  ╚═══╝  ╚══════╝╚═╝  ╚═══╝╚═════╝  ╚═════╝       ╚═╝     ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝ ╚═════╝     ╚════╝  ╚═════╝  ╚═════╝ ");
+            Console.ForegroundColor = ConsoleColor.White;
+
+        }
+
+        static private void SetRandomColor()
+        {
+            Array colors = Enum.GetValues(typeof(ConsoleColor));
+            Random rand = new Random();
+            int ix = rand.Next(1, colors.Length);
+            ConsoleColor color = (ConsoleColor)colors.GetValue(ix);
+            Console.ForegroundColor = color;
+        }
+
+        public void CenterText(string text)
+        {
+            List<string> lines = new List<string>(text.Split("\n", StringSplitOptions.RemoveEmptyEntries));
+            foreach (string str in lines)
+            {
+                Console.WriteLine($"{str, -20}");
+            }
+            
+        }
+
     }
 }
 

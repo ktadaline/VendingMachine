@@ -20,7 +20,7 @@ namespace CapstoneTests
             //Act
             try
             {
-                menu.FeedMoney("5");
+                menu.FeedMoney("7");
             }
             catch (InvalidMoneyTypeException ex)
             {

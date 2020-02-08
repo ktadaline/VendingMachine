@@ -6,6 +6,7 @@ using System.Text;
 
 namespace CapstoneTests
 {
+    [TestClass]
     public class VendingMachineTests
     {
         [TestMethod]
