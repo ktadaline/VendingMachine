@@ -8,7 +8,7 @@ namespace Capstone
     {
         public static void Main(string[] args)
         {
-            Console.SetWindowSize(90, 50);
+            Console.SetWindowSize(120, 50);
             List<string> fullTextProducts = new List<string>();
 
             string path = "vendingmachine.csv";

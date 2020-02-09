@@ -30,8 +30,7 @@ namespace CapstoneTests
             //Assert
             Assert.IsNull(expectedException);
         }
+
     }
-
-
 }
 

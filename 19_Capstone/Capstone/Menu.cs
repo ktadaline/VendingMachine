@@ -25,24 +25,21 @@ namespace Capstone
             string display = "";
            
 
-            //display += "\t\t#     Product              Price      Quantity\n";
-            display += "\t\t#     Product              Price      Quantity\n";
+            display += "\t\t\t\t#     Product              Price      Quantity\n";
 
-            //display += "\t\t................................................\n";
-            display += "\t\t...............................................\n";
+            display += "\t\t\t\t...............................................\n";
 
             foreach (IProduct product in Vend.Products)
             {
                 if (product.QuantityLeft != 0)
                 {
 
-                    display += $"\t\t{product.SlotLocation,-5} {product.ProductName, -20} {product.Price.ToString("C"), -13} {product.QuantityLeft.ToString(), -20} \n";
-                    //display += $"\t\t{product.SlotLocation,-5} {product.ProductName, -20} {product.Price.ToString("C"), -10} {product.QuantityLeft.ToString(), -20} \n";
+                    display += $"\t\t\t\t{product.SlotLocation,-5} {product.ProductName, -20} {product.Price.ToString("C"), -13} {product.QuantityLeft.ToString(), -20} \n";
 
                 }
                 else
                 {
-                    display += $"\t\t{product.SlotLocation,-5} {product.ProductName,-20} {product.Price.ToString("C"),-10} SOLD OUT \n";
+                    display += $"\t\t\t\t{product.SlotLocation,-5} {product.ProductName,-20} {product.Price.ToString("C"),-10} SOLD OUT \n";
 
                 }
             }
@@ -119,9 +116,14 @@ namespace Capstone
                     string money = Console.ReadLine();
 
                     Console.WriteLine();
+                    decimal initalBalance = Vend.Balance;
                     decimal newBalance = FeedMoney(money);
 
-                    Console.WriteLine($"***Depositing cash. Balance is updating to {newBalance:C}.***");
+                    if (initalBalance < newBalance)
+                    {
+                        Console.WriteLine($"***Depositing cash. Balance is updating to {newBalance:C}.***");
+
+                    }
 
                 }
                 else if (input == "2")
@@ -227,7 +229,7 @@ namespace Capstone
         }
         public void FinishTransaction()
         {
-            TransactionList.Add($"{DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss")} GIVE CHANGE: {Vend.Balance} $0.00");
+            TransactionList.Add($"{DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss")} GIVE CHANGE: {Vend.Balance:C} $0.00");
             int quarters = (int)(Vend.Balance / .25m);
             Vend.Balance -= quarters * .25m;
             int dimes = (int)(Vend.Balance / .1m);
@@ -305,16 +307,6 @@ namespace Capstone
             int ix = rand.Next(1, colors.Length);
             ConsoleColor color = (ConsoleColor)colors.GetValue(ix);
             Console.ForegroundColor = color;
-        }
-
-        public void CenterText(string text)
-        {
-            List<string> lines = new List<string>(text.Split("\n", StringSplitOptions.RemoveEmptyEntries));
-            foreach (string str in lines)
-            {
-                Console.WriteLine($"{str, -20}");
-            }
-            
         }
 
     }
