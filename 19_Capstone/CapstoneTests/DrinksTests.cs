@@ -20,5 +20,28 @@ namespace CapstoneTests
             Assert.AreEqual(5, ActualValue);
          }
 
+         [TestMethod]
+         public void DrinksQuantityLeft2()
+         {
+            //arrange
+            Drink drinks = new Drink("DrinksName", "A1", 1.00M);
+            //act
+            drinks.QuantitySold++;
+            int ActualValue = drinks.QuantityLeft;
+            //assert
+            Assert.AreEqual(4, ActualValue);
+         }
+         [TestMethod]
+         public void DrinksQuantityLeft3()
+         {
+            //arrange
+            Drink drinks = new Drink("DrinksName", "A1", 1.00M);
+            //act
+            drinks.QuantitySold += 5;
+            int ActualValue = drinks.QuantityLeft;
+            //assert
+            Assert.AreEqual(0, ActualValue);
+         }
+
     }
 }
